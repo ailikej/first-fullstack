@@ -1,16 +1,17 @@
 import React from "react";
-import { Routes } from "react-router-dom";
-// import Login from "./components/Login";
-// import Signup from "./components/Signup";
-// import PostList from "./components/PostList";
+import { Route, Routes, Navigate } from "react-router-dom";
+import Login from "./components/Login";
+import PostList from "./components/PostList";
+import Signup from "./components/Signup";
 
 const AppRouter = () => {
   return (
     <Routes>
-      {/* <Route path="/signup" component={Signup} />
-        <Route path="/login" component={Login} />
-        <Route path="/" component={PostList} exact /> */}
-      {/* Add more routes as needed */}
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<PostList />} />
+      {/* Redirect user to PostList (or any other page) after login */}
+      <Route path="/after-login" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };
