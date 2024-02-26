@@ -78,6 +78,14 @@ const Login = () => {
             Forgot Password?
           </a>
         </div>
+        <div className="mt-4 text-center">
+          <a
+            href="/signup" // Change this href to match your signup page's route
+            className="font-bold text-sm text-blue-500 hover:text-blue-800"
+          >
+            Don't have an account? Sign Up
+          </a>
+        </div>
       </form>
     </div>
   );

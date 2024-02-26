@@ -8,9 +8,15 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); // Add state to manage error messages
+  const [passwordError, setPasswordError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
+    setPasswordError("");
+    if (password.length < 5) {
+      setPasswordError("Password must be at least 5 characters long.");
+      return; // Stop the form submission
+    }
     try {
       // Make a POST request to the backend to register the user
       await axios.post("http://localhost:3001/api/auth/register", {
@@ -78,19 +84,22 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
           />
+          {passwordError && (
+            <p className="text-red-500 text-xs italic">{passwordError}</p>
+          )}
         </div>
         {error && <p className="text-red-500 text-xs italic">{error}</p>}{" "}
         {/* Display any error messages */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mt-4">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4"
           >
             Sign Up
           </button>
           <a
             href="/login"
-            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 ml-4"
           >
             Already have an account? Log in
           </a>
