@@ -1,13 +1,14 @@
 const express = require('express');
 const pool = require('../db'); // Adjust based on your actual path
-const { authenticateToken } = require('../middlewares/authMiddleware'); // Assume you have this middleware
+const  authenticateToken  = require('../middlewares/authMiddleware'); // Assume you have this middleware
 const { postValidationRules, validate } = require('../middlewares/validationMiddleware');
 
 const router = express.Router();
 
 // Create a new post
 router.post('/', [authenticateToken, postValidationRules(), validate], async (req, res) => {
-    const { userId, title, content } = req.user; // Assuming userId comes from JWT after authentication
+    const userId = req.user.userId; // Assuming JWT contains userId
+    const { title, content } = req.body;
     try {
         const newPost = await pool.query(
             'INSERT INTO posts (userId, title, content) VALUES ($1, $2, $3) RETURNING *',
@@ -19,9 +20,13 @@ router.post('/', [authenticateToken, postValidationRules(), validate], async (re
         res.status(500).send('Server error');
     }
 });
+// router.post('/', (req, res) => {
+//     res.send('Post route is working');
+//   });
+  
 
 // Get all posts
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
     try {
         const allPosts = await pool.query('SELECT * FROM posts');
         res.json(allPosts.rows);
@@ -31,8 +36,9 @@ router.get('/', async (req, res) => {
     }
 });
 
+
 // Get a single post by id
-router.get('/:id', async (req, res) => {
+router.get('/:id',authenticateToken, async (req, res) => {
     const { id } = req.params;
     try {
         const post = await pool.query('SELECT * FROM posts WHERE id = $1', [id]);
@@ -63,6 +69,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
         console.error(err.message);
         res.status(500).send('Server error');
     }
+    // res.send('Post route is working');
 });
 
 // Delete a post
