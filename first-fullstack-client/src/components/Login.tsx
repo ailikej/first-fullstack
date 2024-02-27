@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { login, selectUserToken } from "../features/userSlice"; // Adjust the path as necessary
-import { useDispatch, useSelector } from "react-redux";
+import { setUserToken } from "../features/userSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
-  const dispatch = useDispatch(); // Add this line
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -24,17 +24,14 @@ const Login = () => {
       localStorage.setItem("token", response.data.token); // Assuming the token is returned in the response data under the key 'token'
 
       dispatch(
-        login({
+        setUserToken({
           token: response.data.token,
         })
       );
 
-      // Handle response here. For example, store the returned token
-      console.log("response", response); // You might want to do something with this data, like storing it or redirecting the user
       navigate("/"); // Redirects user to the main page or dashboard
     } catch (error) {
       console.error("There was an error!", error);
-      // Handle errors here, such as displaying a notification to the user
     }
   };
 

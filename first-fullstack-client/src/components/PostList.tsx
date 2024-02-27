@@ -3,8 +3,8 @@ import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import PostForm from "./PostForm";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { logout } from "../features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUserToken, selectUserToken } from "../features/userSlice";
 import EditPostForm from "./EditPostForm";
 
 export interface Post {
@@ -18,21 +18,22 @@ const PostList = () => {
   const navigate = useNavigate();
 
   const [posts, setPosts] = useState<Post[]>([]);
-  const [showPostForm, setShowPostForm] = useState(false); // State to control the modal visibility
+  const [showPostForm, setShowPostForm] = useState(false);
   const [editingPost, setEditingPost] = useState<Post | null>(null);
+
+  const token = useSelector(selectUserToken);
 
   useEffect(() => {
     fetchPosts();
   }, []);
 
   const handleLogout = () => {
-    dispatch(logout()); // Dispatch the logout action
+    dispatch(clearUserToken()); // Dispatch the clearUserToken action
     localStorage.removeItem("token");
     navigate("/login");
   };
 
   const fetchPosts = async () => {
-    const token = localStorage.getItem("token");
     try {
       const response = await axios.get("http://localhost:3001/api/posts", {
         headers: {
@@ -51,8 +52,6 @@ const PostList = () => {
   };
 
   const deletePost = async (postId: number) => {
-    const token = localStorage.getItem("token");
-
     try {
       await axios.delete(`http://localhost:3001/api/posts/${postId}`, {
         headers: {
