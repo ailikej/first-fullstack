@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Post } from "./PostList";
-import { useSelector } from "react-redux";
-import { selectUserToken } from "../features/userSlice";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Post } from './PostList';
+import { useSelector } from 'react-redux';
+import { selectUserToken } from '../features/userSlice';
 
 const EditPostForm = ({
   post,
@@ -34,7 +34,7 @@ const EditPostForm = ({
       onPostUpdated(); // Refresh the posts list
       onClose(); // Close the modal
     } catch (error) {
-      console.error("Error updating post:", error);
+      console.error('Error updating post:', error);
     }
   };
 
@@ -42,19 +42,17 @@ const EditPostForm = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start pt-10">
       <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
         <div className="mt-3 text-center">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Edit Post
-          </h3>
+          <h3 className="text-lg leading-6 font-medium text-gray-900">Edit Post</h3>
           <form onSubmit={updatePost} className="mt-2">
             <input
               type="text"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none"
             />
             <textarea
               value={content}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={e => setContent(e.target.value)}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none h-40"
             />
             <div className="mt-4">

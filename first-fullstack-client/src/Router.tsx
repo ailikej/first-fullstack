@@ -1,9 +1,9 @@
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
-import Login from "./components/Login";
-import PostList from "./components/PostList";
-import Signup from "./components/Signup";
-import SinglePostPage from "./components/SinglePostPage";
-import PrivateRoute from "./components/PrivateRoute";
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import Login from './components/Login';
+import PostList from './components/PostList';
+import Signup from './components/Signup';
+import SinglePostPage from './components/SinglePostPage';
+import PrivateRoute from './components/PrivateRoute';
 
 const AppRouter = () => {
   return (

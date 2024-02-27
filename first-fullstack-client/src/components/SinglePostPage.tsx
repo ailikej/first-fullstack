@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { Post } from "./PostList";
-import { useSelector } from "react-redux";
-import { selectUserToken } from "../features/userSlice";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { Post } from './PostList';
+import { useSelector } from 'react-redux';
+import { selectUserToken } from '../features/userSlice';
 
 const SinglePostPage = () => {
   const { id } = useParams(); // This hooks allows us to access the id parameter from the URL
@@ -14,17 +14,14 @@ const SinglePostPage = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3001/api/posts/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`http://localhost:3001/api/posts/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setPost(response.data);
       } catch (error) {
-        console.error("Error fetching post:", error);
+        console.error('Error fetching post:', error);
       }
     };
 

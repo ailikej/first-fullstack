@@ -1,17 +1,11 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { selectUserToken } from "../features/userSlice";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { selectUserToken } from '../features/userSlice';
 
-const PostForm = ({
-  onClose,
-  onPostCreated,
-}: {
-  onClose: () => void;
-  onPostCreated: () => void;
-}) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+const PostForm = ({ onClose, onPostCreated }: { onClose: () => void; onPostCreated: () => void }) => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
   const token = useSelector(selectUserToken);
 
@@ -19,7 +13,7 @@ const PostForm = ({
     event.preventDefault();
     try {
       await axios.post(
-        "http://localhost:3001/api/posts",
+        'http://localhost:3001/api/posts',
         { title, content },
         {
           headers: {
@@ -30,7 +24,7 @@ const PostForm = ({
       onPostCreated();
       onClose();
     } catch (error) {
-      console.error("Error creating post:", error);
+      console.error('Error creating post:', error);
     }
   };
 
@@ -47,7 +41,7 @@ const PostForm = ({
               type="text"
               id="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
               className="w-full p-2 border rounded"
             />
           </div>
@@ -58,7 +52,7 @@ const PostForm = ({
             <textarea
               id="content"
               value={content}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={e => setContent(e.target.value)}
               className="w-full p-2 border rounded"
               rows={4}
             />
@@ -71,10 +65,7 @@ const PostForm = ({
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className="px-4 py-2 rounded text-white bg-blue-500 hover:bg-blue-700"
-            >
+            <button type="submit" className="px-4 py-2 rounded text-white bg-blue-500 hover:bg-blue-700">
               Submit
             </button>
           </div>

@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store/store";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store/store';
 
 interface UserState {
   token: string | null;
@@ -11,19 +11,16 @@ const initialState: UserState = {
 };
 
 export const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
-    setUserToken: (
-      state: UserState,
-      action: PayloadAction<{ token: string }>
-    ) => {
-      console.log("Redux is saving this user token:", action.payload.token); // Add this line
+    setUserToken: (state: UserState, action: PayloadAction<{ token: string }>) => {
+      console.log('Redux is saving this user token:', action.payload.token); // Add this line
       state.token = action.payload.token;
     },
-    clearUserToken: (state) => {
+    clearUserToken: state => {
       state.token = null;
-      console.log("Redux is removing user token, token now is:", state.token); // Add this line
+      console.log('Redux is removing user token, token now is:', state.token); // Add this line
     },
   },
 });

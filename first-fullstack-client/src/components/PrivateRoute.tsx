@@ -1,7 +1,7 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
-import { selectUserToken } from "../features/userSlice";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { selectUserToken } from '../features/userSlice';
 
 interface PrivateRouteProps {
   children: React.ReactNode;
@@ -10,11 +10,7 @@ interface PrivateRouteProps {
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const token = useSelector(selectUserToken);
 
-  return (
-    <React.Fragment>
-      {token ? children : <Navigate to="/login" />}
-    </React.Fragment>
-  );
+  return <React.Fragment>{token ? children : <Navigate to="/login" />}</React.Fragment>;
 };
 
 export default PrivateRoute;

@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import axios, { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
-import PostForm from "./PostForm";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { clearUserToken, selectUserToken } from "../features/userSlice";
-import EditPostForm from "./EditPostForm";
+import { useState, useEffect } from 'react';
+import axios, { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
+import PostForm from './PostForm';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUserToken, selectUserToken } from '../features/userSlice';
+import EditPostForm from './EditPostForm';
 
 export interface Post {
   id: number;
@@ -29,13 +29,13 @@ const PostList = () => {
 
   const handleLogout = () => {
     dispatch(clearUserToken()); // Dispatch the clearUserToken action
-    localStorage.removeItem("token");
-    navigate("/login");
+    localStorage.removeItem('token');
+    navigate('/login');
   };
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/posts", {
+      const response = await axios.get('http://localhost:3001/api/posts', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -44,7 +44,7 @@ const PostList = () => {
     } catch (error) {
       const axiosError = error as AxiosError; // Use AxiosError from 'axios'
 
-      console.error("Error deleting post:", axiosError);
+      console.error('Error deleting post:', axiosError);
       if (axiosError.response && axiosError.response.status === 401) {
         handleLogout(); // If token is invalid or expired, logout the user
       }
@@ -62,7 +62,7 @@ const PostList = () => {
     } catch (error) {
       const axiosError = error as AxiosError; // Use AxiosError from 'axios'
 
-      console.error("Error deleting post:", axiosError);
+      console.error('Error deleting post:', axiosError);
       if (axiosError.response && axiosError.response.status === 401) {
         handleLogout(); // If token is invalid or expired, logout the user
       }
@@ -87,26 +87,20 @@ const PostList = () => {
         />
       )}
       <div className="mb-4 text-right">
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        >
+        <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
           Log Out
         </button>
       </div>
       {posts.length > 0 ? (
-        posts.map((post) => (
-          <div
-            key={post.id}
-            className="bg-white shadow-md rounded-lg overflow-hidden mb-6 "
-          >
+        posts.map(post => (
+          <div key={post.id} className="bg-white shadow-md rounded-lg overflow-hidden mb-6 ">
             <Link to={`/posts/${post.id}`}>
               <div className="p-6">
                 <h3 className="font-semibold text-lg mb-2">{post.title}</h3>
                 <p className="text-gray-700">{post.content}</p>
 
                 <button
-                  onClick={(e) => {
+                  onClick={e => {
                     e.preventDefault(); // Prevent the default button action
 
                     e.stopPropagation(); // Prevent link navigation
@@ -117,7 +111,7 @@ const PostList = () => {
                   Edit
                 </button>
                 <button
-                  onClick={(e) => {
+                  onClick={e => {
                     e.preventDefault(); // Prevent the default button action
 
                     e.stopPropagation(); // Prevent link navigation
