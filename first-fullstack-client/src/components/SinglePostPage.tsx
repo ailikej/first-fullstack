@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Post } from "./PostList";
+import { useSelector } from "react-redux";
+import { selectUserToken } from "../features/userSlice";
 
 const SinglePostPage = () => {
   const { id } = useParams(); // This hooks allows us to access the id parameter from the URL
   const [post, setPost] = useState<Post | null>(null);
+
+  const token = useSelector(selectUserToken);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -15,6 +19,8 @@ const SinglePostPage = () => {
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
+
+              //   Authorization: `Bearer ${token}`,
             },
           }
         );

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Post } from "./PostList";
+import { useSelector } from "react-redux";
+import { selectUserToken } from "../features/userSlice";
 
 const EditPostForm = ({
   post,
@@ -14,9 +16,11 @@ const EditPostForm = ({
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
 
+  const token = useSelector(selectUserToken);
+
   const updatePost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+
     try {
       await axios.put(
         `http://localhost:3001/api/posts/${post.id}`,

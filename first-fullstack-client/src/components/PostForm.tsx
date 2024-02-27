@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { selectUserToken } from "../features/userSlice";
 
 const PostForm = ({
   onClose,
@@ -10,6 +12,8 @@ const PostForm = ({
 }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  const token = useSelector(selectUserToken);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

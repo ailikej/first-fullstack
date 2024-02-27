@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import PostForm from "./PostForm"; // Import the PostForm component
 import EditPostForm from "./EditPostForm";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUserToken } from "../features/userSlice";
 
 export interface Post {
   id: number;
@@ -12,15 +14,24 @@ export interface Post {
 }
 
 const PostList = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [showPostForm, setShowPostForm] = useState(false); // State to control the modal visibility
   const [editingPost, setEditingPost] = useState<Post | null>(null);
 
+  const token = useSelector(selectUserToken);
+
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  const handleLogout = () => {
+    dispatch(logout()); // Dispatch the logout action
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   const fetchPosts = async () => {
     const token = localStorage.getItem("token");
@@ -32,19 +43,16 @@ const PostList = () => {
       });
       setPosts(response.data);
     } catch (error) {
-      console.error("Error fetching posts:", error);
+      const axiosError = error as AxiosError; // Use AxiosError from 'axios'
+
+      console.error("Error deleting post:", axiosError);
+      if (axiosError.response && axiosError.response.status === 401) {
+        handleLogout(); // If token is invalid or expired, logout the user
+      }
     }
   };
 
-  const handleLogout = () => {
-    // Clear the token from local storage
-    localStorage.removeItem("token");
-    // Redirect to the login page
-    navigate("/login");
-  };
-
   const deletePost = async (postId: number) => {
-    const token = localStorage.getItem("token"); // Assuming you store your token in localStorage
     try {
       await axios.delete(`http://localhost:3001/api/posts/${postId}`, {
         headers: {
@@ -53,10 +61,21 @@ const PostList = () => {
       });
       fetchPosts(); // Refresh the list after deleting
     } catch (error) {
-      console.error("Error deleting post:", error);
-      // Optionally handle errors, such as showing an error message to the user
+      const axiosError = error as AxiosError; // Use AxiosError from 'axios'
+
+      console.error("Error deleting post:", axiosError);
+      if (axiosError.response && axiosError.response.status === 401) {
+        handleLogout(); // If token is invalid or expired, logout the user
+      }
+      // Optionally handle other errors, such as showing an error message to the user
     }
   };
+
+  //   if (!token) {
+  //     return <div>Please log in first...</div>; // or null, depending on your preference
+  //   }
+
+  console.log("token", token);
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
