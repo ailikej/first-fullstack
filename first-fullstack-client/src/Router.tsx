@@ -4,13 +4,28 @@ import Login from "./components/Login";
 import PostList from "./components/PostList";
 import Signup from "./components/Signup";
 import SinglePostPage from "./components/SinglePostPage";
+import PrivateRoute from "./components/PrivateRoute";
 
 const AppRouter = () => {
   return (
     <Routes>
-      <Route path="/" element={<PostList />} />
+      <Route
+        path="/"
+        element={
+          <PrivateRoute>
+            <PostList />
+          </PrivateRoute>
+        }
+      />
       <Route path="/posts" element={<Navigate to="/" replace />} />
-      <Route path="/posts/:id" element={<SinglePostPage />} />
+      <Route
+        path="/posts/:id"
+        element={
+          <PrivateRoute>
+            <SinglePostPage />
+          </PrivateRoute>
+        }
+      />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/after-login" element={<Navigate to="/" replace />} />
