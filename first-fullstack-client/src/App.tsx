@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 function App() {
   return (
     <Router>
-      <div className="bg-red-500 min-h-screen">
+      <div className="bg-red-100 min-h-screen">
         <AppRouter />
       </div>
     </Router>
