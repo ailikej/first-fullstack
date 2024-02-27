@@ -21,8 +21,6 @@ const PostList = () => {
   const [showPostForm, setShowPostForm] = useState(false); // State to control the modal visibility
   const [editingPost, setEditingPost] = useState<Post | null>(null);
 
-  const token = useSelector(selectUserToken);
-
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -53,6 +51,8 @@ const PostList = () => {
   };
 
   const deletePost = async (postId: number) => {
+    const token = localStorage.getItem("token");
+
     try {
       await axios.delete(`http://localhost:3001/api/posts/${postId}`, {
         headers: {
@@ -71,11 +71,9 @@ const PostList = () => {
     }
   };
 
-  //   if (!token) {
-  //     return <div>Please log in first...</div>; // or null, depending on your preference
-  //   }
-
-  console.log("token", token);
+  // if (!token) {
+  //   return <div>Please log in first...</div>; // or null, depending on your preference
+  // }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
