@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import PostForm from "./PostForm"; // Import the PostForm component
+import EditPostForm from "./EditPostForm";
+import { Link } from "react-router-dom";
 
-interface Post {
+export interface Post {
   id: number;
   title: string;
   content: string;
@@ -14,6 +16,7 @@ const PostList = () => {
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [showPostForm, setShowPostForm] = useState(false); // State to control the modal visibility
+  const [editingPost, setEditingPost] = useState<Post | null>(null);
 
   useEffect(() => {
     fetchPosts();
@@ -38,6 +41,21 @@ const PostList = () => {
     localStorage.removeItem("token");
     // Redirect to the login page
     navigate("/login");
+  };
+
+  const deletePost = async (postId: number) => {
+    const token = localStorage.getItem("token"); // Assuming you store your token in localStorage
+    try {
+      await axios.delete(`http://localhost:3001/api/posts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      fetchPosts(); // Refresh the list after deleting
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      // Optionally handle errors, such as showing an error message to the user
+    }
   };
 
   return (
@@ -69,19 +87,50 @@ const PostList = () => {
         posts.map((post) => (
           <div
             key={post.id}
-            className="bg-white shadow-md rounded-lg overflow-hidden mb-6"
+            className="bg-white shadow-md rounded-lg overflow-hidden mb-6 "
           >
-            <div className="p-6">
-              <h3 className="font-semibold text-lg mb-2">{post.title}</h3>
-              <p className="text-gray-700">{post.content}</p>
-              {/* Add more post details here */}
-            </div>
+            <Link to={`/posts/${post.id}`}>
+              <div className="p-6">
+                <h3 className="font-semibold text-lg mb-2">{post.title}</h3>
+                <p className="text-gray-700">{post.content}</p>
+
+                <button
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent the default button action
+
+                    e.stopPropagation(); // Prevent link navigation
+                    setEditingPost(post);
+                  }}
+                  className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent the default button action
+
+                    e.stopPropagation(); // Prevent link navigation
+                    deletePost(post.id);
+                  }}
+                  className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Delete
+                </button>
+              </div>
+            </Link>
           </div>
         ))
       ) : (
         <div className="text-center">
           <p className="text-gray-600">No posts found.</p>
         </div>
+      )}
+      {editingPost && (
+        <EditPostForm
+          post={editingPost}
+          onClose={() => setEditingPost(null)}
+          onPostUpdated={fetchPosts} // This will refetch posts once a post is updated
+        />
       )}
     </div>
   );
