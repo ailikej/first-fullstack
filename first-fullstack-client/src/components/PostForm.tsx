@@ -32,7 +32,7 @@ const PostForm = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start pt-20">
       <div className="bg-white p-4 rounded-lg shadow-lg space-y-3 max-w-md">
         <h2 className="text-lg font-bold">Create a New Post</h2>
         <form onSubmit={handleSubmit}>
