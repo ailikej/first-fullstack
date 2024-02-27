@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-import PostForm from "./PostForm"; // Import the PostForm component
-import EditPostForm from "./EditPostForm";
+import PostForm from "./PostForm";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUserToken } from "../features/userSlice";
+import { useDispatch } from "react-redux";
+import { logout } from "../features/userSlice";
+import EditPostForm from "./EditPostForm";
 
 export interface Post {
   id: number;
@@ -67,13 +67,8 @@ const PostList = () => {
       if (axiosError.response && axiosError.response.status === 401) {
         handleLogout(); // If token is invalid or expired, logout the user
       }
-      // Optionally handle other errors, such as showing an error message to the user
     }
   };
-
-  // if (!token) {
-  //   return <div>Please log in first...</div>; // or null, depending on your preference
-  // }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
