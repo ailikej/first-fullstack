@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Post } from "./PostList";
@@ -18,9 +18,7 @@ const SinglePostPage = () => {
           `http://localhost:3001/api/posts/${id}`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-
-              //   Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );

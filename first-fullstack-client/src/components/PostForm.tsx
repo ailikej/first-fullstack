@@ -17,7 +17,6 @@ const PostForm = ({
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const token = localStorage.getItem("token");
     try {
       await axios.post(
         "http://localhost:3001/api/posts",
