@@ -14,19 +14,22 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (state: UserState, action: PayloadAction<{ token: string }>) => {
-      console.log("Logging in with token:", action.payload.token); // Add this line
-
+    setUserToken: (
+      state: UserState,
+      action: PayloadAction<{ token: string }>
+    ) => {
+      console.log("Redux is saving this user token:", action.payload.token); // Add this line
       state.token = action.payload.token;
     },
-    logout: (state) => {
+    clearUserToken: (state) => {
       state.token = null;
+      console.log("Redux is removing user token, token now is:", state.token); // Add this line
     },
   },
 });
 
 // Export the actions
-export const { login, logout } = userSlice.actions;
+export const { setUserToken, clearUserToken } = userSlice.actions;
 
 // Export the selector
 export const selectUserToken = (state: RootState) => state.user.token;
