@@ -58,7 +58,8 @@ For any issues or support, please check the FAQ section in the documentation or 
 # Project Instruction
 
 Certainly! Here's a recap of the project overview and the steps involved in creating your full-stack application, incorporating React with TypeScript for the frontend, Node.js with Express.js for the backend, and using both RESTful APIs and GraphQL for communication:
-  Project Overview
+
+## Project Overview
 
 - Frontend: React with TypeScript
 - Backend: Node.js (Express.js framework recommended for simplicity)
